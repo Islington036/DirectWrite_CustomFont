@@ -149,7 +149,6 @@ private:
 // 初期化処理
 HRESULT DirectWriteCustomFont::Init(IDXGISwapChain* swapChain)
 {
-	// 処理の結果
 	HRESULT result = S_OK;
 
 	// Direct2Dファクトリ情報の初期化
@@ -200,7 +199,6 @@ HRESULT DirectWriteCustomFont::Init(IDXGISwapChain* swapChain)
 // 指定されたパスのフォントを読み込む
 HRESULT DirectWriteCustomFont::FontLoader()
 {
-	// 処理の結果
 	HRESULT result = S_OK;
 
 	// カスタムフォントコレクションの作成
@@ -248,7 +246,6 @@ int DirectWriteCustomFont::GetFontNameNum()
 // 第1引数：フォントデータ構造体
 HRESULT DirectWriteCustomFont::SetFont(FontData set)
 {
-	// 処理の結果
 	HRESULT result = S_OK;
 
 	// 設定をコピー
@@ -306,7 +303,6 @@ HRESULT DirectWriteCustomFont::SetFont(WCHAR const* fontname, DWRITE_FONT_WEIGHT
 									DWRITE_FONT_STRETCH fontStretch, FLOAT fontSize, WCHAR const* localeName,
 									DWRITE_TEXT_ALIGNMENT textAlignment, D2D1_COLOR_F Color)
 {
-	// 処理の結果
 	HRESULT result = S_OK;
 
 	pDWriteFactory->CreateTextFormat(GetFontFileNameWithoutExtension(fontname), fontCollection.Get(), fontWeight, fontStyle, fontStretch, fontSize, localeName, &pTextFormat);
@@ -337,7 +333,6 @@ HRESULT DirectWriteCustomFont::SetFont(int num, DWRITE_FONT_WEIGHT fontWeight, D
 									DWRITE_FONT_STRETCH fontStretch, FLOAT fontSize, WCHAR const* localeName,
 									DWRITE_TEXT_ALIGNMENT textAlignment, D2D1_COLOR_F Color)
 {
-	// 処理の結果
 	HRESULT result = S_OK;
 
 	pDWriteFactory->CreateTextFormat(GetFontName(num).c_str(), fontCollection.Get(), fontWeight, fontStyle, fontStretch, fontSize, localeName, &pTextFormat);
@@ -360,7 +355,6 @@ HRESULT DirectWriteCustomFont::SetFont(int num, DWRITE_FONT_WEIGHT fontWeight, D
 //====================================
 HRESULT DirectWriteCustomFont::DrawString(std::string str, D3DXVECTOR2 pos, D2D1_DRAW_TEXT_OPTIONS options)
 {
-	// 処理の結果
 	HRESULT result = S_OK;
 
 	// 文字列の変換
@@ -399,7 +393,6 @@ HRESULT DirectWriteCustomFont::DrawString(std::string str, D3DXVECTOR2 pos, D2D1
 	//====================================
 HRESULT DirectWriteCustomFont::DrawString(std::string str, D2D1_RECT_F rect, D2D1_DRAW_TEXT_OPTIONS options)
 {
-	// 処理の結果
 	HRESULT result = S_OK;
 
 	// 文字列の変換
@@ -422,7 +415,6 @@ HRESULT DirectWriteCustomFont::DrawString(std::string str, D2D1_RECT_F rect, D2D
 // フォント名を取得
 HRESULT DirectWriteCustomFont::GetFontFamilyName(IDWriteFontCollection* customFontCollection, const WCHAR* locale)
 {
-	// 処理の結果
 	HRESULT result = S_OK;
 
 	// フォントファミリー名一覧をリセット
@@ -479,7 +471,6 @@ HRESULT DirectWriteCustomFont::GetFontFamilyName(IDWriteFontCollection* customFo
 // 全てのフォント名を取得
 HRESULT DirectWriteCustomFont::GetAllFontFamilyName(IDWriteFontCollection* customFontCollection)
 {
-	// 処理の結果
 	HRESULT result = S_OK;
 
 	// フォントファミリー名一覧をリセット
