@@ -72,14 +72,14 @@ Write->DrawString("テスト", D3DXVECTOR2(90, 90), D2D1_DRAW_TEXT_OPTIONS_NONE)
 
 | メソッド  |  役割   |
 | -------- | ----------  |
-| [`Init`](##Init) | クラスの初期化を行います。|
-| [`SetFont`](##SetFont) |  設定したフォントデータを反映します。|
-| [`DrawString`](##DrawString) |  文字列の描画を行います。|
-| [`GetFontName`](##GetFontName) |  指定した番号のフォント名を返します。|
-| [`GetFontNameNum`](##GetFontNameNum) |  読み込んだフォントの最大数を返します。|
-| [`GetFontFamilyName`](##GetFontFamilyName) |  フォント名を読み込み直します。|
-| [`GetAllFontFamilyName`](##GetAllFontFamilyName) |  全てのフォント名を読み込み直します。|
-| [`FontLoader`](##fontloader) |  指定されたパスのフォントを読み込み直します。|
+| [`Init`](#Init) | クラスの初期化を行います。|
+| [`SetFont`](#SetFont) |  設定したフォントデータを反映します。|
+| [`DrawString`](#DrawString) |  文字列の描画を行います。|
+| [`GetFontName`](#GetFontName) |  指定した番号のフォント名を返します。|
+| [`GetFontNameNum`](#GetFontNameNum) |  読み込んだフォントの最大数を返します。|
+| [`GetFontFamilyName`](#GetFontFamilyName) |  フォント名を読み込み直します。|
+| [`GetAllFontFamilyName`](#GetAllFontFamilyName) |  全てのフォント名を読み込み直します。|
+| [`FontLoader`](#fontloader) |  指定されたパスのフォントを読み込み直します。|
 
 ---
 
