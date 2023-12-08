@@ -27,9 +27,8 @@ namespace FontList
 {
 	const std::wstring FontPath[] =
 	{
-		L"asset\\font\\Ubuntu-R.ttf",
-		L"asset\\font\\しょかきうたげ（無料版）.ttf",
-		L"asset\\font\\851tegaki_zatsu_normal.ttf"
+		L"font\\Sample.ttf",
+		L"font\\サンプル.ttf",
 	};
 }
 
