@@ -25,7 +25,7 @@ class CustomFontCollectionLoader;
 //=============================================================================
 namespace FontList
 {
-	const std::wstring FontPass[] =
+	const std::wstring FontPath[] =
 	{
 		L"asset\\font\\Ubuntu-R.ttf",
 		L"asset\\font\\ÇµÇÂÇ©Ç´Ç§ÇΩÇ∞Åiñ≥óøî≈Åj.ttf",

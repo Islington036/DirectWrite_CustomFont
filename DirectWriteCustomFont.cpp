@@ -131,7 +131,7 @@ public:
 		OUT IDWriteFontFileEnumerator** fontFileEnumerator) override
 	{
 		// 読み込むフォントファイルのパスを渡す
-		std::vector<std::wstring> fontFilePaths(std::begin(FontList::FontPass), std::end(FontList::FontPass));
+		std::vector<std::wstring> fontFilePaths(std::begin(FontList::FontPath), std::end(FontList::FontPath));
 
 		// カスタムフォントファイル列挙子の作成
 		*fontFileEnumerator = new (std::nothrow) CustomFontFileEnumerator(factory, fontFilePaths);
