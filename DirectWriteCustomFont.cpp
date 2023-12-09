@@ -1,8 +1,5 @@
 #pragma once
 
-// 必要なライブラリは適宜追加してください
-#include "main.h"
-
 #include "DirectWriteCustomFont.h"
 
 // フォントコレクションローダー

@@ -3,13 +3,13 @@
 #include <string>						// 文字列
 #include <vector>						// 動的配列
 #include <wrl.h>						// ComPtr
-#include <memory>
 
 #pragma warning(push)
 #pragma warning(disable:4005)
 
 #include <d2d1.h>						// Direct2D
 #include <DWrite.h>						// DirectWrite
+#include <D3DX10math.h>					// 数学系ライブラリ
 
 #pragma warning(pop)
 
