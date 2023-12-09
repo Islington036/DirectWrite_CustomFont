@@ -12,6 +12,10 @@ DirectXなどで利用することができます。
 - フォントスタイル、サイズ、色の設定
 - **文字列の描画**
 
+## 紹介
+**こちらのブログでも機能紹介、トラブルシューティング、メモを載せています。**
+<https://islingtonsystem.hatenablog.jp/entry/DirectWrite_CustomFont_DirectX>
+
 ## メモ
 開発環境ではDirectX11を使用してテストを行いました。
 
