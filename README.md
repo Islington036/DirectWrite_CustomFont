@@ -112,7 +112,7 @@ Write->DrawString("テスト", D3DXVECTOR2(90, 90), D2D1_DRAW_TEXT_OPTIONS_NONE)
 - `string str`: 描画するテキスト。
 - `D3DXVECTOR2 pos`: 描画ポジション。先頭文字の開始位置を指定します。
 - `D2D1_DRAW_TEXT_OPTIONS options`: テキストの整形を指定します。
-
+- `bool shadow`: 影の描画を指定します。
 
 ##### 使用例
 ``` cpp
