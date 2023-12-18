@@ -8,11 +8,11 @@ WRL::ComPtr <CustomFontCollectionLoader> pFontCollectionLoader = nullptr;
 //=============================================================================
 //		カスタムファイルローダー
 //=============================================================================
-class CustomFontFileEnumerator : public IDWriteFontFileEnumerator 
+class CustomFontFileEnumerator : public IDWriteFontFileEnumerator
 {
 public:
 	CustomFontFileEnumerator(IDWriteFactory* factory, const std::vector<std::wstring>& fontFilePaths)
-		: refCount_(0), factory_(factory), fontFilePaths_(fontFilePaths), currentFileIndex_(-1) 
+		: refCount_(0), factory_(factory), fontFilePaths_(fontFilePaths), currentFileIndex_(-1)
 	{
 		factory_->AddRef();
 	}
@@ -62,7 +62,7 @@ public:
 		}
 	}
 
-	IFACEMETHODIMP GetCurrentFontFile(OUT IDWriteFontFile** fontFile) override 
+	IFACEMETHODIMP GetCurrentFontFile(OUT IDWriteFontFile** fontFile) override
 	{
 		// フォントファイルを読み込む
 		return factory_->CreateFontFileReference(fontFilePaths_[currentFileIndex_].c_str(), nullptr, fontFile);
@@ -164,7 +164,7 @@ HRESULT DirectWriteCustomFont::Init(IDXGISwapChain* swapChain)
 
 	// レンダーターゲットの作成
 	D2D1_RENDER_TARGET_PROPERTIES props = D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_DEFAULT, D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED), dpiX, dpiY);
-	
+
 	// サーフェスに描画するレンダーターゲットを作成
 	result = pD2DFactory->CreateDxgiSurfaceRenderTarget(pBackBuffer.Get(), &props, pRenderTarget.GetAddressOf());
 	if (FAILED(result)) { return result; }
@@ -282,24 +282,29 @@ HRESULT DirectWriteCustomFont::SetFont(FontData set)
 	result = pRenderTarget->CreateSolidColorBrush(Setting.Color, pBrush.GetAddressOf());
 	if (FAILED(result)) { return result; }
 
+	// 影用のブラシを作成
+	result = pRenderTarget->CreateSolidColorBrush(Setting.shadowColor, pShadowBrush.GetAddressOf());
+	if (FAILED(result)) { return result; }
+
 	return result;
 }
 
 //=================================================================================================================================
 // フォント設定
 // 第1引数：フォント名（L"メイリオ", L"Arial", L"Meiryo UI"等）
-// 第2引数：フォントコレクション（nullptr）
-// 第3引数：フォントの太さ（DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_WEIGHT_BOLD等）
-// 第4引数：フォントスタイル（DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STYLE_OBLIQUE, DWRITE_FONT_STYLE_ITALIC）
-// 第5引数：フォントの幅（DWRITE_FONT_STRETCH_NORMAL,DWRITE_FONT_STRETCH_EXTRA_EXPANDED等）
-// 第6引数：フォントサイズ（20, 30等）
-// 第7引数：ロケール名（L"ja-jp"等）
-// 第8引数：テキストの配置（DWRITE_TEXT_ALIGNMENT_LEADING：前, 等）
-// 第9引数：フォントの色（D2D1::ColorF(D2D1::ColorF::Black)：黒, D2D1::ColorF(D2D1::ColorF(0.0f, 0.2f, 0.9f, 1.0f))：RGBA指定等）
+// 第2引数：フォントの太さ（DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_WEIGHT_BOLD等）
+// 第3引数：フォントスタイル（DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STYLE_OBLIQUE, DWRITE_FONT_STYLE_ITALIC）
+// 第4引数：フォントの幅（DWRITE_FONT_STRETCH_NORMAL,DWRITE_FONT_STRETCH_EXTRA_EXPANDED等）
+// 第5引数：フォントサイズ（20, 30等）
+// 第6引数：ロケール名（L"ja-jp"等）
+// 第7引数：テキストの配置（DWRITE_TEXT_ALIGNMENT_LEADING：前, 等）
+// 第8引数：フォントの色（D2D1::ColorF(D2D1::ColorF::Black)：黒, D2D1::ColorF(D2D1::ColorF(0.0f, 0.2f, 0.9f, 1.0f))：RGBA指定等）
+// 第9引数：影の色（D2D1::ColorF(D2D1::ColorF::Black)：黒, D2D1::ColorF(D2D1::ColorF(0.0f, 0.2f, 0.9f, 1.0f))：RGBA指定等）
+// 第10引数：影のオフセット（D2D1::Point2F(2.0f, 2.0f)：右下に2ピクセルずらす）
 //=================================================================================================================================
 HRESULT DirectWriteCustomFont::SetFont(WCHAR const* fontname, DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle,
-									DWRITE_FONT_STRETCH fontStretch, FLOAT fontSize, WCHAR const* localeName,
-									DWRITE_TEXT_ALIGNMENT textAlignment, D2D1_COLOR_F Color)
+	DWRITE_FONT_STRETCH fontStretch, FLOAT fontSize, WCHAR const* localeName,
+	DWRITE_TEXT_ALIGNMENT textAlignment, D2D1_COLOR_F Color, D2D1_COLOR_F shadowColor, D2D1_POINT_2F shadowOffset)
 {
 	HRESULT result = S_OK;
 
@@ -312,34 +317,7 @@ HRESULT DirectWriteCustomFont::SetFont(WCHAR const* fontname, DWRITE_FONT_WEIGHT
 	pRenderTarget->CreateSolidColorBrush(Color, pBrush.GetAddressOf());
 	if (FAILED(result)) { return result; }
 
-	return result;
-}
-
-//=================================================================================================================================
-// フォント設定
-// 第1引数：フォントリストのナンバー
-// 第2引数：フォントコレクション（nullptr）
-// 第3引数：フォントの太さ（DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_WEIGHT_BOLD等）
-// 第4引数：フォントスタイル（DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STYLE_OBLIQUE, DWRITE_FONT_STYLE_ITALIC）
-// 第5引数：フォントの幅（DWRITE_FONT_STRETCH_NORMAL,DWRITE_FONT_STRETCH_EXTRA_EXPANDED等）
-// 第6引数：フォントサイズ（20, 30等）
-// 第7引数：ロケール名（L"ja-jp"等）
-// 第8引数：テキストの配置（DWRITE_TEXT_ALIGNMENT_LEADING：前, 等）
-// 第9引数：フォントの色（D2D1::ColorF(D2D1::ColorF::Black)：黒, D2D1::ColorF(D2D1::ColorF(0.0f, 0.2f, 0.9f, 1.0f))：RGBA指定等）
-//=================================================================================================================================
-HRESULT DirectWriteCustomFont::SetFont(int num, DWRITE_FONT_WEIGHT fontWeight, DWRITE_FONT_STYLE fontStyle, 
-									DWRITE_FONT_STRETCH fontStretch, FLOAT fontSize, WCHAR const* localeName,
-									DWRITE_TEXT_ALIGNMENT textAlignment, D2D1_COLOR_F Color)
-{
-	HRESULT result = S_OK;
-
-	pDWriteFactory->CreateTextFormat(GetFontName(num).c_str(), fontCollection.Get(), fontWeight, fontStyle, fontStretch, fontSize, localeName, &pTextFormat);
-	if (FAILED(result)) { return result; }
-
-	pTextFormat->SetTextAlignment(textAlignment);
-	if (FAILED(result)) { return result; }
-
-	pRenderTarget->CreateSolidColorBrush(Color, pBrush.GetAddressOf());
+	pRenderTarget->CreateSolidColorBrush(shadowColor, pShadowBrush.GetAddressOf());
 	if (FAILED(result)) { return result; }
 
 	return result;
@@ -351,7 +329,7 @@ HRESULT DirectWriteCustomFont::SetFont(int num, DWRITE_FONT_WEIGHT fontWeight, D
 // pos：描画ポジション
 // options：テキストの整形
 //====================================
-HRESULT DirectWriteCustomFont::DrawString(std::string str, D3DXVECTOR2 pos, D2D1_DRAW_TEXT_OPTIONS options)
+HRESULT DirectWriteCustomFont::DrawString(std::string str, D3DXVECTOR2 pos, D2D1_DRAW_TEXT_OPTIONS options, bool shadow)
 {
 	HRESULT result = S_OK;
 
@@ -372,10 +350,20 @@ HRESULT DirectWriteCustomFont::DrawString(std::string str, D3DXVECTOR2 pos, D2D1
 
 	// 描画の開始
 	pRenderTarget->BeginDraw();
-	
+
+	// 影を描画する場合
+	if (shadow)
+	{
+		// 影の描画
+		pRenderTarget->DrawTextLayout(D2D1::Point2F(pounts.x - Setting.shadowOffset.x, pounts.y - Setting.shadowOffset.y),
+			pTextLayout.Get(),
+			pShadowBrush.Get(),
+			options);
+	}
+
 	// 描画処理
 	pRenderTarget->DrawTextLayout(pounts, pTextLayout.Get(), pBrush.Get(), options);
-	
+
 	// 描画の終了
 	result = pRenderTarget->EndDraw();
 	if (FAILED(result)) { return result; }
@@ -389,7 +377,7 @@ HRESULT DirectWriteCustomFont::DrawString(std::string str, D3DXVECTOR2 pos, D2D1
 // rect：領域指定
 // options：テキストの整形
 	//====================================
-HRESULT DirectWriteCustomFont::DrawString(std::string str, D2D1_RECT_F rect, D2D1_DRAW_TEXT_OPTIONS options)
+HRESULT DirectWriteCustomFont::DrawString(std::string str, D2D1_RECT_F rect, D2D1_DRAW_TEXT_OPTIONS options, bool shadow)
 {
 	HRESULT result = S_OK;
 
@@ -398,6 +386,16 @@ HRESULT DirectWriteCustomFont::DrawString(std::string str, D2D1_RECT_F rect, D2D
 
 	// 描画の開始
 	pRenderTarget->BeginDraw();
+
+	if (shadow)
+	{
+		// 影の描画
+		pRenderTarget->DrawText(wstr.c_str(),
+			wstr.size(),
+			pTextFormat.Get(),
+			D2D1::RectF(rect.left - Setting.shadowOffset.x, rect.top - Setting.shadowOffset.y, rect.right - Setting.shadowOffset.x, rect.bottom - Setting.shadowOffset.y),
+			pShadowBrush.Get(), options);
+	}
 
 	// 描画処理
 	pRenderTarget->DrawText(wstr.c_str(), wstr.size(), pTextFormat.Get(), rect, pBrush.Get(), options);
@@ -524,7 +522,7 @@ WCHAR* DirectWriteCustomFont::GetFontFileNameWithoutExtension(const std::wstring
 	size_t end = filePath.find_last_of(L'.');
 
 	// ファイル名を取得
-    std::wstring fileNameWithoutExtension = filePath.substr(start, end - start).c_str();
+	std::wstring fileNameWithoutExtension = filePath.substr(start, end - start).c_str();
 
 	// 新しいWCHAR配列を作成
 	WCHAR* fileName = new WCHAR[fileNameWithoutExtension.length() + 1];

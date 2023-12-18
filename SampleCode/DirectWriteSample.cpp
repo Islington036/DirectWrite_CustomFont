@@ -26,6 +26,8 @@ void DirectWriteSample::Init()
 	data.fontWeight = DWRITE_FONT_WEIGHT_ULTRA_BLACK;
 	data.Color = D2D1::ColorF(D2D1::ColorF::Red);
 	data.font = Write->GetFontName(3);
+	data.shadowColor = D2D1::ColorF(D2D1::ColorF::White);
+	data.shadowOffset = D2D1::Point2F(5.0f, -5.0f);
 
 	// フォントをセット
 	Write->SetFont(data);
